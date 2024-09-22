@@ -1,0 +1,41 @@
+man firewalld
+firewall-cmd --get=active-zones #(show access to active zones interfaces)
+firewall-cmd --zone=public --list-all  #(this will show all the setting)
+Decide what ports you need access to
+8000 tcp
+8080 tcp
+8088 tcp
+8089 tcp
+8181 tcp
+8191 tcp
+9997 tcp
+5665 tcp
+514 udp
+To add port/type of traffic
+firewall-cmd --zone=public --add-port=8000/tcp --permanent
+To remove port/type of traffic
+firewall-cmd --zone=public --remove-port=8000/tcp --permanent
+#firewall-cmd status#
+firewall-cmd --reload
+firewall-cmd --list-all
+df -h #checking your disk file system in human readable form#
+
+Do the installation as Root
+
+1  cd /opt
+2 yum -y install wget net-tools
+3 useradd splunk 
+4 wget -O splunk-9.3.0-51ccf43db5bd-Linux-x86_64.tgz "https://download.splunk.com/products/splunk/releases/9.3.0/linux/splunk-9.3.0-51ccf43db5bd-Linux-x86_64.tgz"
+5  tar -xvzf splunk-9.3.0-51ccf43db5bd-Linux-x86_64.tgz -C /opt
+#check ls -laR /opt/splunk for ownership and permissions
+6 chown -R splunk:splunk /opt/splunk
+7 su - splunk
+8 cd /opt/splunk/bin/
+9 /opt/splunk/bin/splunk start --accept-license --answer-yes --no-     prompt --seed-passwd welcome90
+10 exit   #this is needed so you can leave splunk and run the next command as root#
+ 11 /opt/splunk/bin/splunk enable boot-start -user splunk -systemd-managed 1 #1 is on 0 is off# #use -user and not --user#
+12 /opt/splunk/bin/splunk start #start splunk#
+13 systemctl status Splunkd #check the status#
+ 
+#Log on with ip:8000 on a brower#
+
